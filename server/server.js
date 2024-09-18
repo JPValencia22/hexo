@@ -18,28 +18,6 @@ app.get('/', (req, res) => {
   res.send('Servidor Hexo en funcionamiento');
 });
 
-// Endpoint para crear un nuevo post
-/* app.post('/create-post', (req, res) => {
-  const postTitle = req.body.title;
-  if (!postTitle) {
-    return res.status(400).send('El título del post es necesario.');
-  }
-
-  // Ejecuta el comando 'hexo new'
-  exec(`hexo new "${postTitle}"`, { cwd: path.resolve(__dirname, '../blog') }, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error al crear el post: ${error.message}`);
-      return res.status(500).send('Error al crear el post.');
-    }
-    if (stderr) {
-      console.error(`Error: ${stderr}`);
-      return res.status(500).send('Error al crear el post.');
-    }
-    console.log(`Resultado: ${stdout}`);
-    res.send('Post creado exitosamente.');
-  });
-}); */
-
 // Endpoint para eliminar un post
 app.delete('/delete/:postName', (req, res) => {
   const postName = req.params.postName;
