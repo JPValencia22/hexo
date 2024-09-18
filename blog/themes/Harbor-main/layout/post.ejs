@@ -1,0 +1,93 @@
+<!-- <div class="post_container">
+  <div class="post_container-wrapper" data-augmented-ui="border tl-clip tr-clip bl-clip br-clip">
+    <div class="post-title" data-augmented-ui="border tl-clip tr-clip"><%- page.title || page.link%></div>
+    <% if(Boolean(page.featured_image)){ %>
+    <div class="post-featured-image-container" data-augmented-ui="border">
+      <img
+        class="post-featured-image"
+        src="<%- config.root %><%- page.featured_image %>"
+        alt="Featured image for <%=page.title %>"
+      />
+    </div>
+    <% }%>
+    <div class="post-content"><%- page.content %></div>
+    <div class="post-date" onclick="scrollToTop()" data-augmented-ui="border bl-clip br-clip">
+      <%= page.date.format(config.date_format) %>
+    </div>
+  </div>
+</div>
+
+<script>
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+</script> -->
+
+<div class="post_container">
+  <div class="post_container-wrapper" data-augmented-ui="border tl-clip tr-clip bl-clip br-clip">
+    <div class="post-title" data-augmented-ui="border tl-clip tr-clip"><%- page.title || page.link %></div>
+
+    <% if(Boolean(page.featured_image)){ %>
+    <div class="post-featured-image-container" data-augmented-ui="border">
+      <img
+        class="post-featured-image"
+        src="<%- config.root %><%- page.featured_image %>"
+        alt="Featured image for <%= page.title %>"
+      />
+    </div>
+    <% } %>
+
+    <div class="post-content"><%- page.content %></div>
+
+    <div class="post-date" onclick="scrollToTop()" data-augmented-ui="border bl-clip br-clip">
+      <%= page.date.format(config.date_format) %>
+    </div>
+
+    <!-- Botones de Editar y Eliminar -->
+    <div class="post-actions">
+      <button onclick="editPost('<%= page.path %>')" class="edit-button">Editar</button>
+      <button onclick="deletePost('<%= page.path %>')" class="delete-button">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Función para editar un post
+  function editPost(postPath) {
+    const editUrl = `/edit/${postPath}`;
+    window.location.href = editUrl; // Redirige a la página de edición
+  }
+
+ // Función para eliminar un post
+function deletePost(postPath) {
+  // Obtener el nombre del post a partir de la URL
+  const postName = postPath.split('/').filter(Boolean).pop(); // Extraer la última parte de la URL
+
+  const deleteUrl = `http://localhost:3000/delete/${postName}`; // Ruta del backend para eliminar el archivo
+
+  // Confirmación antes de eliminar el post
+  if (confirm('¿Estás seguro de que deseas eliminar este post?')) {
+    fetch(deleteUrl, { method: 'DELETE' })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Post eliminado con éxito');
+          //window.location.reload(); // Recargar la página tras eliminar
+          window.location.href = "http://localhost:4000";
+        } else {
+          alert('Error al eliminar el post: ' + data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error al eliminar el post:', error);
+        alert('Error al eliminar el post');
+      });
+  }
+}
+
+</script>
+
